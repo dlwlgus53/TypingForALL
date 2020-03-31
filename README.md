@@ -1,2 +1,2 @@
-# dlwlgus53
+# Typing for all
 HCI -5 typing for all

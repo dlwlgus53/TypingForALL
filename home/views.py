@@ -10,6 +10,7 @@ import requests
 
 
 def voice(request):
+    # TODO : Remove this part and make IBM version
     client_id = "salwDsOe8RoUMKEKAKMh"
     client_secret = "A8_2T9SxK_"
     url = "https://openapi.naver.com/v1/vision/face" # 얼굴인식

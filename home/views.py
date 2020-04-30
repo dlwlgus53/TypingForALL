@@ -48,8 +48,17 @@ def home(request):
     headers = {'X-Naver-Client-Id': client_id, 'X-Naver-Client-Secret': client_secret }
     response = requests.post(url,  files=files, headers=headers)
     rescode = response.status_code
+
+    '''
+        response split
+    '''
+    '''
+        link to emoji
+    '''
+    
     if(rescode==200):
         print (response.text)
     else:
         print("Error Code:" + str(rescode))
+    age = 3
     return render(request, 'home/html/home.html', context={"age" : age, "imoji" : "🧑"})

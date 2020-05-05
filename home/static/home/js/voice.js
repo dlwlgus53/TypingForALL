@@ -63,10 +63,8 @@ function startRecording() {
 		/* 
 			Create the Recorder object and configure to record mono sound (1 channel)
 			Recording 2 channels  will double the file size
-        */
-        console.log("2")
-        rec = new Recorder(input,{numChannels:1})
-        console.log("3")
+		*/
+		rec = new Recorder(input,{numChannels:1})
 
 		//start the recording process
 		rec.record()
@@ -74,8 +72,7 @@ function startRecording() {
 		console.log("Recording started");
 
 	}).catch(function(err) {
-          //enable the record button if getUserMedia() fails
-          console.log("error?")
+	  	//enable the record button if getUserMedia() fails
     	recordButton.disabled = false;
     	stopButton.disabled = true;
     	pauseButton.disabled = true

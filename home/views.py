@@ -5,7 +5,7 @@ import urllib.request
 import os
 
 import requests
-#颇教
+
 #from collections import OrderedDict
 #from pprint import pprint
 # Create your views here.

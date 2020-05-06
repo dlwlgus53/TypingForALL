@@ -2,6 +2,14 @@ from django.shortcuts import render
 import json
 from django.http import JsonResponse
 import urllib.request
+from django.http import HttpResponseRedirect
+import speech_recognition as sr
+from ibm_watson import SpeechToTextV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+import json
+
+
+
 import os
 
 import requests
@@ -19,7 +27,26 @@ import requests
   "url": "https://api.kr-seo.speech-to-text.watson.cloud.ibm.com/instances/a70a5e4d-f62a-4030-93e8-02a88bf454b4"
 }
 '''
+def recognize(request):
+    
+    r = sr.Recognizer()
+    speech = sr.Microphone()
+    #authenticator -> apikey
+    authenticator = IAMAuthenticator("RJwfHoc632pKWuv2uoMrNG0VXJoHWP2qxvlpvlFqJz8E")
+    speechToText = SpeechToTextV1(
+        authenticator=authenticator
+        )
+    #url link
+    speechToText.set_service_url("https://api.kr-seo.speech-to-text.watson.cloud.ibm.com/instances/6414f5a4-9b16-4e26-a9fe-948c5bcac106")
 
+    with speech as source:
+        print("say something!!…")
+        audio_file = r.adjust_for_ambient_noise(source)
+        audio_file = r.listen(source)
+    speech_recognition_results = speechToText.recognize(audio=audio_file.get_wav_data(), content_type='audio/wav').get_result()
+    print(json.dumps(speech_recognition_results, indent=2))
+
+    return render(request, 'home/html/voice.html', context={"response" : json.dumps(speech_recognition_results, indent=2)})
 
 def voice(request):
     # TODO : Remove this part and make IBM version
@@ -27,7 +54,7 @@ def voice(request):
 
     url = "https://api.kr-seo.speech-to-text.watson.cloud.ibm.com/instances/a70a5e4d-f62a-4030-93e8-02a88bf454b4/v1/recognize" # 鞚岇劚鞚胳嫕
 
-    headers = {"Content-Type" : "audio/flac"}
+    headers = {"Content-Type" : "audio/wav"}
     auth = ( "apikey", "a4FjtzoPaIYwxg-fQ5JQ1jtCZ1b12kYM9zrTR6yO7lbG")
     path  = os.path.dirname(os.path.realpath(__file__)) + '\\voice\\audio.flac'
     data = {"audio" : open(path, "rb")}

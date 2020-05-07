@@ -10,9 +10,10 @@
 <body>
 
 <div class="container">
-  <a href = "http://127.0.0.1:8000/home/voice/recognize"><button>인식 시작</button></a>
+  <a href = "http://127.0.0.1:8000/home/voice/voice_recognize"><button>음성인식 시작</button></a>
   <p> 말을 멈추면 자동으로 인식됩니다.(영어만 가능)</p>
-  <p>{{ response }}</p>
+  <p>{{ voice_response }}</p>
+  <input type="text" value ="{{ voice_response }}" >
 </div>
 </body>
 </html>

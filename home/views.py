@@ -27,8 +27,7 @@ import requests
   "url": "https://api.kr-seo.speech-to-text.watson.cloud.ibm.com/instances/a70a5e4d-f62a-4030-93e8-02a88bf454b4"
 }
 '''
-def recognize(request):
-    
+def voice_recognize(request):
     r = sr.Recognizer()
     speech = sr.Microphone()
     #authenticator -> apikey
@@ -45,8 +44,11 @@ def recognize(request):
         audio_file = r.listen(source)
     speech_recognition_results = speechToText.recognize(audio=audio_file.get_wav_data(), content_type='audio/wav').get_result()
     print(json.dumps(speech_recognition_results, indent=2))
+    voice_result = json.dumps(speech_recognition_results, indent=2)
 
-    return render(request, 'home/html/voice.html', context={"response" : json.dumps(speech_recognition_results, indent=2)})
+    return render(request, 'home/html/voice.html', context={"voice_response" : voice_result})
+
+
 
 def voice(request):
     # TODO : Remove this part and make IBM version

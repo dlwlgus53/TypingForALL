@@ -29,7 +29,6 @@ import requests
 }
 '''
 
-voice = ""
 
 def voice_recognize(request):
     r = sr.Recognizer()

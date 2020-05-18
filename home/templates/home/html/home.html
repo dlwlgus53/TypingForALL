@@ -12,8 +12,8 @@
     {% for emoji in emoji_list %}
         <span>{{ emoji }}</span>
     {% endfor %}
-
-    {{ emoji_list }}
+    <p>위에는 혹시나 해서 넣어본 따로 쓰는 방법</p>
+    <p id="emoji_list">{{ emoji_list }}</p>
 
 
     <a href = "http://127.0.0.1:8000/home/voice_recognize"><button>음성인식 시작</button></a>
@@ -29,10 +29,9 @@
     window.onload = myFunction;
     function myFunction() {
       var voice = document.getElementById("voice").innerText;
-      document.getElementById("demo").innerHTML = voice;  
+      //document.getElementById("voice_2").innerHTML = voice;  
 
-      var emoji_list = document.getElementById("voice").innerText;
-      document.getElementById("demo").innerHTML = voice; 
+      var emoji_list = document.getElementById("emoji_list").innerText;
     }
     </script>
 

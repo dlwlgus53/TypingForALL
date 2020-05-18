@@ -15,6 +15,9 @@ import os
 
 import requests
 
+voice =""
+emoji_list=[]
+
 #from collections import OrderedDict
 #from pprint import pprint
 # Create your views here.
@@ -31,6 +34,7 @@ import requests
 
 
 def voice_recognize(request):
+    global voice
     r = sr.Recognizer()
     speech = sr.Microphone()
     #authenticator -> apikey
@@ -47,52 +51,27 @@ def voice_recognize(request):
         audio_file = r.listen(source)
     
     speech_recognition_results = speechToText.recognize(audio=audio_file.get_wav_data(), content_type='audio/wav').get_result()
-    #voice_result = json.loads(speech_recognition_results)
     voice = speech_recognition_results["results"][0]["alternatives"][0]["transcript"]
-    args = {'voice': voice}
-    url = build_url('http://127.0.0.1:8000/home?', args)
 
 
-    return redirect(url)
+
+    return redirect('http://127.0.0.1:8000/home')
 
 
 def home(request):
-    row_url = ('http://127.0.0.1:8000'+request.get_full_path())
-    url = urllib.parse.urlparse(row_url) 
-    args = urllib.parse.parse_qs(url.query)
-    print(args)
-    voice = " "
-    emoji_list = []
-    try:
-        voice = args['voice'][0]
-        print(voice)
-    except:
-        pass
-    try:
-        gender = args['gender'][0]
-        emotion = args['emotion'][0]
-        print(gender)
-        print(emotion)
-        emoji_list = emotionToEmoji(emotion, gender)
-    except:
-        pass
-
-        
-
-
- 
+    global emoji_list
+    global voice
 
     return render(request, 'home/html/home.html', context={"voice" : voice, "emoji_list" : emoji_list})
 
 
 
 def face_recognize(request):
-
+    global emoji_list
     client_id = "salwDsOe8RoUMKEKAKMh"
     client_secret = "A8_2T9SxK_"
-    url = "https://openapi.naver.com/v1/vision/face" # ?柤甑挫澑?嫕
-    # Imagepath= open(os.path.dirname(os.path.realpath(__file__)) + '../image/IU.png', "rb")
-    # print(Imagepath)
+    url = "https://openapi.naver.com/v1/vision/face" 
+
     
     cap = cv2.VideoCapture(0)   # 0: default camera
     while cap.isOpened():
@@ -121,13 +100,14 @@ def face_recognize(request):
 
     json_data = json.loads(response.text)
     gender = json_data['faces'][0]['gender']["value"]# 성별 
-    #age = json_data['faces'][0]['age']["value"] # 나이 
+
     emotion = json_data['faces'][0]['emotion']["value"] # 감정 
 
-    args = {'emotion': emotion, 'gender':gender}
-    url = build_url('http://127.0.0.1:8000/home?', args)
 
-    return redirect(url)
+    emoji_list = emotionToEmoji(emotion, gender)
+
+    print(emoji_list)
+    return redirect('http://127.0.0.1:8000/home')
 
 
 def emotionToEmoji(emotion, gender):
@@ -143,10 +123,3 @@ def emotionToEmoji(emotion, gender):
     if(emotion == "talking" ): emoji_list = ["😀","😄","😮"]
 
     return emoji_list
-
-
-def build_url(baseurl, args_dict):
-    # Returns a list in the structure of urlparse.ParseResult
-    url = baseurl + urllib.parse.urlencode(args_dict)
-    print("url" + baseurl)
-    return url

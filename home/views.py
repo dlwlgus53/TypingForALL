@@ -17,6 +17,8 @@ import requests
 
 voice =""
 emoji_list=[]
+from_voice = False
+from_face = False
 
 #from collections import OrderedDict
 #from pprint import pprint
@@ -35,6 +37,8 @@ emoji_list=[]
 
 def voice_recognize(request):
     global voice
+    global from_voice
+    from_voice = True
     r = sr.Recognizer()
     speech = sr.Microphone()
     #authenticator -> apikey
@@ -61,6 +65,15 @@ def voice_recognize(request):
 def home(request):
     global emoji_list
     global voice
+    global from_voice
+    global from_face
+
+    if(not from_voice and not from_face):
+        voice = ""
+        emoji_list = []
+    from_voice =False
+    from_face =False
+
 
     return render(request, 'home/html/home.html', context={"voice" : voice, "emoji_list" : emoji_list})
 
@@ -68,6 +81,9 @@ def home(request):
 
 def face_recognize(request):
     global emoji_list
+    global from_face
+
+    from_face = True
     client_id = "salwDsOe8RoUMKEKAKMh"
     client_secret = "A8_2T9SxK_"
     url = "https://openapi.naver.com/v1/vision/face" 

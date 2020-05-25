@@ -9,6 +9,10 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 import json
 import cv2 
 import urllib
+import time
+
+
+
 from django.shortcuts import redirect
 
 import os
@@ -82,7 +86,7 @@ def home(request):
 def face_recognize(request):
     global emoji_list
     global from_face
-
+    capture_duration = 3
     from_face = True
     client_id = "salwDsOe8RoUMKEKAKMh"
     client_secret = "A8_2T9SxK_"
@@ -90,15 +94,24 @@ def face_recognize(request):
 
     
     cap = cv2.VideoCapture(0)   # 0: default camera
-    while cap.isOpened():
+    start_time = time.time()
+    while(int(time.time() - start_time)<capture_duration) :
         success, frame = cap.read()
+
         if success:
-            cv2.imshow('Camera Window', frame)
-            cv2.imwrite('home/image/user.png', frame)
+            cv2.imshow('TypingForALL', frame)
+            cv2.imwrite('user.png', frame)
+
+            #cv2.waitKey(1) 
+        
             key = cv2.waitKey(1) & 0xFF
-            
-            if (key == 27): 
-                break
+            # begin = clock();
+            #if (key == 32 ): 
+            #    break
+            #cv2.waitKey(1)
+        else:
+            break
+        
     cap.release()
     cv2.destroyAllWindows()
 

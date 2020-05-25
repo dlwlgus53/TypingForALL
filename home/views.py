@@ -100,7 +100,7 @@ def face_recognize(request):
 
         if success:
             cv2.imshow('TypingForALL', frame)
-            cv2.imwrite('user.png', frame)
+            cv2.imwrite('home/image/user.png', frame)
 
             #cv2.waitKey(1) 
         

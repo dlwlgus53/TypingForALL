@@ -2,39 +2,102 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+<head>
+      <!-- 폰트 -->
+    <link href="https://fonts.googleapis.com/css2?family=Acme&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&display=swap" rel="stylesheet">
+    <!-- 한글폰트 -->
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@700&display=swap" rel="stylesheet">
+    <!-- Jquery Download -->
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <!-- Jquery Script -->
+    <script type ="text/javascript" src = "../../../static/home/js/jquery.js" ></script>
+    <!-- 음성인식 JS Script -->
+    <script type ="text/javascript" src = "../../../static/home/js/voice.js" ></script>
+    <!-- CSS Script -->
+    <link rel="stylesheet" href = "../../../static/home/css/home.css" ></link>
+
+
+</head>
 <body>
-    <script type ="text/javascript" src = "{% static 'home/js/home.js' %}" ></script>
-    <link rel="stylesheet" href = "{% static 'home/css/home.css' %}" ></link>
-    <a href = "http://127.0.0.1:8000/home/face_recognize"><button>얼굴인식 시작 = >esc누르면 촬영 </button></a>
-
-    <p>얼굴인식 결과</p>
-
-    {% for emoji in emoji_list %}
-        <span>{{ emoji }}</span>
-    {% endfor %}
-    <p>위에는 혹시나 해서 넣어본 따로 쓰는 방법</p>
-    <p id="emoji_list">{{ emoji_list }}</p>
-
-
-    <a href = "http://127.0.0.1:8000/home/voice_recognize"><button>음성인식 시작</button></a>
-    <p> 말을 멈추면 자동으로 인식됩니다.(영어만 가능)</p>
-    <p id="voice">{{ voice }}</p>
-
-    <p> js 로 가져오기 예시</p>
     <p id="demo"></p>
-
-    <script type ="text/javascript" src = "{% static 'home/js/voice.js' %}" ></script> 
     
-    <script>
-    window.onload = myFunction;
-    function myFunction() {
-      var voice = document.getElementById("voice").innerText;
-      //document.getElementById("voice_2").innerHTML = voice;  
+<div id = wrap>
+    <p>{{ emoji }}</p>
+    <p>{{ age }}</p>
 
-      var emoji_list = document.getElementById("emoji_list").innerText;
-    }
-    </script>
+ 
+        <!-- <div id= "container"></div> -->
+        <div id = title>
+        <h2>Typing For All</h2> 
+        </div>
 
+        <div id = layers>
+            <!-- <div id = chatSpace> -->
+                <div id = chatroom>
+                  <div id = greyBox></div>
+                    <div id = recording-wrap>
+                   <div id = recording-container>
+                         <div id="sentArea"> </div>
+                         
+                         <img id = record class = "recording recording-message" src="../../../static/img/record.png" alt="">
+                         <span class=recording-message >Currently Recording...</span> 
+                      </div>
+                     
+                   </div>
+                   
+                   <div id = layers-top>
+                         <a href = "http://127.0.0.1:8000/home/voice_recognize" id = mic-cover tabindex=”1”>  <img id = mic src="../../../static/img/mic.png" alt=""></a> 
+                         <a  id = "hi" href = "http://127.0.0.1:8000/home/face_recognize" tabindex=”2”> <img id = webcam src="../../../static/img/webcam.png" alt=""> </a>
+                         <div id = webcam-balloon><p id=explanation>A picture will be automatically taken after <span id=seconds>3 seconds</span></p></div>
+                  </div>
+                    <!-- <img class = chatroom-image src="../../../static/img/chatroom.png" alt=""> -->
+                    <img class = chatroom-image src="../../../static/img/chatroom2.png" alt="">
+                      <!-- <div class="rectangle-speech-border"> -->
+                        <div id = emojiTxt>
+                            
+                            {% for emoji in emoji_list %}
+                            <button class = emojiLoaded>{{ emoji }}</button>
+                            {% endfor %}
+                        </div>
+            
+                     <!-- </div> -->
+                     <!-- <div id = iconwrap> -->
+                             <!-- 마이크 아이콘 -->
+                            
+<!--                        <img id = record class = recording src="../../../static/img/record.png" alt="">
+                        <img id = pause class = recording src="../../../static/img/pause.png" alt=""> -->
+                       
+                     <!-- </div> -->
+                     <div id="txtwrap">
+                       <p id = txtBox> {{ voice }}</p>
+                       <button id = sendButton tabindex=”3”>   <span class = send> SEND</span></button>
+                      
+                      
+                      
+                     </div>
+ 
+                </div> 
+            <!-- </div> -->
+  
+           
+        </div>
+        <div id="mask" class = hidden></div>
+        <!-- <img id = emoji class = hidden src="../../../static/img/emoji.png"> -->
+    
+        <!-- 음성인식버튼 -->
+      
+
+      
+
+       
+        <!-- <button id = face>face recognition</button> -->
+          
+    
+ 
+
+
+</div>
 
 </body>
 </html>
